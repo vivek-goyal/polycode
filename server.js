@@ -9,12 +9,18 @@ const server = http.createServer((req, res) => {
     const phrase = req.url.replace(/^\/b64\//, '')
     res.end(JSON.stringify({ b64: Buffer.from(phrase).toString('base64') }))
   }
+  if (req.url === '/user-agent') return respondUserAgent(req, res)
 
   res.end()
 })
 
 function respondHello (req, res) {
   res.end(JSON.stringify({ msg: 'hello' }))
+}
+
+function respondUserAgent (req, res) {
+  const ua = req.headers['user-agent']
+  res.end(JSON.stringify({ ua }))
 }
 
 server.listen(PORT)
